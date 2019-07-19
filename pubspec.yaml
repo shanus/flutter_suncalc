@@ -1,0 +1,22 @@
+name: flutter_suncalc
+description: A port of the suncalc library from https://github.com/mourner/suncalc
+version: 0.1.0
+author: Shaun Meredith
+homepage: https://github.com/shanus
+
+environment:
+  sdk: ">=2.1.0 <3.0.0"
+
+dependencies:
+  flutter:
+    sdk: flutter
+
+dev_dependencies:
+  flutter_test:
+    sdk: flutter
+
+
+# The following section is specific to Flutter.
+flutter:
+
+
