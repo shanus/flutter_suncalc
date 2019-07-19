@@ -1,7 +1,7 @@
 name: flutter_suncalc
 description: A port of the suncalc library from https://github.com/mourner/suncalc
 version: 0.1.0
-author: Shaun Meredith
+author: Shaun Meredith <support@infobridge.net>
 homepage: https://github.com/shanus
 
 environment:
