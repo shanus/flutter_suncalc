@@ -46,7 +46,7 @@ void main() {
   test('getTimes returns sun phases in summer in Stockholm', () {
     DateTime date = new DateTime.utc(2020, 6, 9);
     const sthlm = { "lat": 59.33538407920466, "lng": 18.03007918439074 };
-    // 2020-06-09 Sunrise/sunset (aprox): 03:34 - 22:00 
+    // https://www.timeanddate.com/sun/sweden/stockholm?month=6&year=2020
     var times = SunCalc.getTimes(date, sthlm["lat"], sthlm["lng"]);
     
     expect(times["sunrise"].toIso8601String().substring(0,19), "2020-06-09T01:35:47");
@@ -56,7 +56,7 @@ void main() {
   test('getTimes returns sun phases in summer in Kiruna (midnight sun)', () {
     DateTime date = new DateTime.utc(2020, 7, 1);
     const kiruna = { "lat": 67.8537716, "lng": 20.1163502 };
-    // 2020-06-09 Sunrise/sunset (aprox): 03:34 - 22:00 
+    // https://www.timeanddate.com/sun/sweden/kiruna?month=7&year=2020 
     var times = SunCalc.getTimes(date, kiruna["lat"], kiruna["lng"]);
     
     expect(times["sunrise"], null);
@@ -68,7 +68,7 @@ void main() {
   test('getTimes returns sun phases in summer in Kiruna', () {
     DateTime date = new DateTime.utc(2020, 7, 17);
     const kiruna = { "lat": 67.8537716, "lng": 20.1163502 };
-    // 2020-06-09 Sunrise/sunset (aprox): 03:34 - 22:00 
+    // https://www.timeanddate.com/sun/sweden/kiruna?month=7&year=2020
     var times = SunCalc.getTimes(date, kiruna["lat"], kiruna["lng"]);
 
     expect(times["sunrise"].toIso8601String().substring(0,19), "2020-07-16T23:17:03");
