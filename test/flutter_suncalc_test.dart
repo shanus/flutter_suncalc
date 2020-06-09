@@ -30,6 +30,52 @@ void main() {
   };
 
 
+  test('Duration class exposes static const variables', () {
+    expect(Duration.millisecondsPerDay, isA<int>());
+    expect(Duration.microsecondsPerMillisecond, 1000);
+  });
+
+  test('getTimes returns sun phases in summer in Kiev', () {
+    var date = new DateTime.utc(2020, 6, 10);
+    var times = SunCalc.getTimes(date, lat, lng);
+    
+    expect(times["sunrise"].toIso8601String().substring(0,19), "2020-06-10T01:47:58");
+    expect(times["sunset"].toIso8601String().substring(0,19), "2020-06-10T18:09:48");
+  });
+
+  test('getTimes returns sun phases in summer in Stockholm', () {
+    DateTime date = new DateTime.utc(2020, 6, 9);
+    const sthlm = { "lat": 59.33538407920466, "lng": 18.03007918439074 };
+    // 2020-06-09 Sunrise/sunset (aprox): 03:34 - 22:00 
+    var times = SunCalc.getTimes(date, sthlm["lat"], sthlm["lng"]);
+    
+    expect(times["sunrise"].toIso8601String().substring(0,19), "2020-06-09T01:35:47");
+    expect(times["sunset"].toIso8601String().substring(0,19), "2020-06-09T20:01:23");
+  });
+
+  test('getTimes returns sun phases in summer in Kiruna (midnight sun)', () {
+    DateTime date = new DateTime.utc(2020, 7, 1);
+    const kiruna = { "lat": 67.8537716, "lng": 20.1163502 };
+    // 2020-06-09 Sunrise/sunset (aprox): 03:34 - 22:00 
+    var times = SunCalc.getTimes(date, kiruna["lat"], kiruna["lng"]);
+    
+    expect(times["sunrise"], null);
+    expect(times["sunset"], null);
+
+  });
+
+
+  test('getTimes returns sun phases in summer in Kiruna', () {
+    DateTime date = new DateTime.utc(2020, 7, 17);
+    const kiruna = { "lat": 67.8537716, "lng": 20.1163502 };
+    // 2020-06-09 Sunrise/sunset (aprox): 03:34 - 22:00 
+    var times = SunCalc.getTimes(date, kiruna["lat"], kiruna["lng"]);
+
+    expect(times["sunrise"].toIso8601String().substring(0,19), "2020-07-16T23:17:03");
+    expect(times["sunset"].toIso8601String().substring(0,19), "2020-07-17T22:16:31");
+  });
+
+
   test('getPosition returns azimuth and altitude for the given time and location', () {
     var sunPos = SunCalc.getPosition(date, lat, lng);
 
