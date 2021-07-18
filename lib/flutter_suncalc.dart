@@ -18,7 +18,10 @@ num toJulian(DateTime date) {
 }
 
 DateTime fromJulian(num j) {
-  return julianEpoch.add(Duration(milliseconds: (j * Duration.millisecondsPerDay).floor()));
+  if (j.isNaN)
+     return null;
+  else
+    return julianEpoch.add(Duration(milliseconds: (j * Duration.millisecondsPerDay).floor()));
 }
 
 num toDays(DateTime date) {
