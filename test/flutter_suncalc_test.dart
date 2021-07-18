@@ -4,7 +4,7 @@ import 'package:flutter_suncalc/flutter_suncalc.dart';
 
 void main() {
 
-  bool near(val1, val2, [margin = 1E-15]) {
+  bool? near(val1, val2, [margin = 1E-15]) {
     return ((val1 - val2).abs() < margin);
   }
 
@@ -41,7 +41,7 @@ void main() {
     var times = SunCalc.getTimes(date, lat, lng);
 
     testTimes.forEach((key,value) {
-      expect(times[key].toIso8601String().substring(0,19) + "Z", value);
+      expect(times[key]!.toIso8601String().substring(0,19) + "Z", value);
     });
   });
 
