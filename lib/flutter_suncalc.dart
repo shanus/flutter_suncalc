@@ -202,7 +202,7 @@ class SunCalc {
       result[time[2]] = fromJulian(jset);
     }
 
-    return result as Map<String, DateTime>;
+    return result;
   }
 
   static Map<String,num> getMoonPosition(DateTime date, num lat, num lng) {
