@@ -17,7 +17,7 @@ num toJulian(DateTime date) {
   return date.difference(julianEpoch).inSeconds / Duration.secondsPerDay;
 }
 
-DateTime fromJulian(num j) {
+DateTime? fromJulian(num j) {
   if (j.isNaN)
      return null;
   else
@@ -171,7 +171,7 @@ class SunCalc {
     return SunCalc.getPosition(date, lat, lng);
   }
 
-  static Map<String,DateTime> getTimes(DateTime date, num lat, num lng) {
+  static Map<String,DateTime?> getTimes(DateTime date, num lat, num lng) {
     var lw = RAD * -lng;
     var phi = RAD * lat;
 
