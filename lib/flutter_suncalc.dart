@@ -17,7 +17,7 @@ num toJulian(DateTime date) {
   return date.difference(julianEpoch).inSeconds / Duration.secondsPerDay;
 }
 
-DateTime fromJulian(num j) {
+DateTime? fromJulian(num j) {
   if (j.isNaN)
      return null;
   else
@@ -159,11 +159,11 @@ class SunCalc {
     var d   = toDays(date);
 
     var c  = sunCoords(d);
-    var H  = siderealTime(d, lw) - c["ra"];
+    var H  = siderealTime(d, lw) - c["ra"]!;
 
     return {
-      "azimuth": azimuth(H, phi, c["dec"]),
-      "altitude": altitude(H, phi, c["dec"])
+      "azimuth": azimuth(H, phi, c["dec"]!),
+      "altitude": altitude(H, phi, c["dec"]!)
     };
   }
 
@@ -171,7 +171,7 @@ class SunCalc {
     return SunCalc.getPosition(date, lat, lng);
   }
 
-  static Map<String,DateTime> getTimes(DateTime date, num lat, num lng) {
+  static Map<String,DateTime?> getTimes(DateTime date, num lat, num lng) {
     var lw = RAD * -lng;
     var phi = RAD * lat;
 
@@ -211,17 +211,17 @@ class SunCalc {
     var d   = toDays(date);
 
     var c = moonCoords(d);
-    var H = siderealTime(d, lw) - c["ra"];
-    var h = altitude(H, phi, c["dec"]);
+    var H = siderealTime(d, lw) - c["ra"]!;
+    var h = altitude(H, phi, c["dec"]!);
     // formula 14.1 of "Astronomical Algorithms" 2nd edition by Jean Meeus (Willmann-Bell, Richmond) 1998.
-    var pa = math.atan2(math.sin(H), math.tan(phi) * math.cos(c["dec"]) - math.sin(c["dec"]) * math.cos(H));
+    var pa = math.atan2(math.sin(H), math.tan(phi) * math.cos(c["dec"]!) - math.sin(c["dec"]!) * math.cos(H));
 
     h = h + astroRefraction(h); // altitude correction for refraction
 
     return {
-      "azimuth": azimuth(H, phi, c["dec"]),
+      "azimuth": azimuth(H, phi, c["dec"]!),
       "altitude": h,
-      "distance": c["dist"],
+      "distance": c["dist"]!,
       "parallacticAngle": pa
     };
   }
@@ -233,9 +233,9 @@ class SunCalc {
 
     var sdist = 149598000; // distance from Earth to Sun in km
 
-    var phi = math.acos(math.sin(s["dec"]) * math.sin(m["dec"]) + math.cos(s["dec"]) * math.cos(m["dec"]) * math.cos(s["ra"] - m["ra"]));
-    var inc = math.atan2(sdist * math.sin(phi), m["dist"] - sdist * math.cos(phi));
-    var angle = math.atan2(math.cos(s["dec"]) * math.sin(s["ra"] - m["ra"]), math.sin(s["dec"]) * math.cos(m["dec"]) - math.cos(s["dec"]) * math.sin(m["dec"]) * math.cos(s["ra"] - m["ra"]));
+    var phi = math.acos(math.sin(s["dec"]!) * math.sin(m["dec"]!) + math.cos(s["dec"]!) * math.cos(m["dec"]!/*!*/) * math.cos(s["ra"]! - m["ra"]!));
+    var inc = math.atan2(sdist * math.sin(phi), m["dist"]! - sdist * math.cos(phi));
+    var angle = math.atan2(math.cos(s["dec"]!) * math.sin(s["ra"]! - m["ra"]!), math.sin(s["dec"]!) * math.cos(m["dec"]!) - math.cos(s["dec"]!) * math.sin(m["dec"]!) * math.cos(s["ra"]! - m["ra"]!));
 
     return {
       "fraction": (1 + math.cos(inc)) / 2,
@@ -250,7 +250,7 @@ class SunCalc {
       t = new DateTime.utc(date.year, date.month, date.day, 0, 0, 0);
     }
     const hc = 0.133 * RAD;
-    var h0 = SunCalc.getMoonPosition(t, lat, lng)["altitude"] - hc;
+    num h0 = SunCalc.getMoonPosition(t, lat, lng)["altitude"]! - hc;
     var h1 = 0.0;
     var h2 = 0.0;
     var rise = 0.0;
@@ -267,8 +267,8 @@ class SunCalc {
 
     // go in 2-hour chunks, each time seeing if a 3-point quadratic curve crosses zero (which means rise or set)
     for (var i = 1; i <= 24; i += 2) {
-      h1 = SunCalc.getMoonPosition(hoursLater(t, i), lat, lng)["altitude"] - hc;
-      h2 = SunCalc.getMoonPosition(hoursLater(t, i + 1), lat, lng)["altitude"] -
+      h1 = SunCalc.getMoonPosition(hoursLater(t, i), lat, lng)["altitude"]! - hc;
+      h2 = SunCalc.getMoonPosition(hoursLater(t, i + 1), lat, lng)["altitude"]! -
           hc;
 
       a = (h0 + h2) / 2 - h1;
